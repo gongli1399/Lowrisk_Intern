@@ -92,9 +92,9 @@ class OptionPricing:
 
         terminal = np.maximum(cp_sign * (np.exp(x[1:-1]) - strike), 0)
         bound_min = np.zeros(N + 1) if cp_sign == 1 else strike * np.exp(-self.intr * style * (texp - t)) - np.exp(
-            x_min)
-        bound_max = np.exp(x_max) - strike * np.exp(-self.intr * style * (texp - t)) if cp_sign == 1 else np.zeros(
-            N + 1)
+            x_min - self.divr * style * (texp - t))
+        bound_max = np.exp(x_max - self.divr * style * (texp - t)) - strike * np.exp(
+            -self.intr * style * (texp - t)) if cp_sign == 1 else np.zeros(N + 1)
 
         A = sparse.diags([a, b, c], [-1, 0, 1], shape=(M - 1, M - 1))
         A_LU = splu(A.tocsc())
@@ -156,9 +156,9 @@ class OptionPricing:
 
         terminal = np.maximum(cp_sign * (np.exp(x[1:-1]) - strike), 0)
         bound_min = np.zeros(N + 1) if cp_sign == 1 else strike * np.exp(-self.intr * style * (texp - t)) - np.exp(
-            x_min)
-        bound_max = np.exp(x_max) - strike * np.exp(-self.intr * style * (texp - t)) if cp_sign == 1 else np.zeros(
-            N + 1)
+            x_min - self.divr * style * (texp - t))
+        bound_max = np.exp(x_max - self.divr * style * (texp - t)) - strike * np.exp(
+            -self.intr * style * (texp - t)) if cp_sign == 1 else np.zeros(N + 1)
         F = np.maximum(cp_sign * (np.exp(x) - strike), 0)
 
         if style == 1:
@@ -221,9 +221,9 @@ class OptionPricing:
 
         terminal = np.maximum(cp_sign * (np.exp(x[1:-1]) - strike), 0)
         bound_min = np.zeros(N + 1) if cp_sign == 1 else strike * np.exp(-self.intr * style * (texp - t)) - np.exp(
-            x_min)
-        bound_max = np.exp(x_max) - strike * np.exp(-self.intr * style * (texp - t)) if cp_sign == 1 else np.zeros(
-            N + 1)
+            x_min - self.divr * style * (texp - t))
+        bound_max = np.exp(x_max - self.divr * style * (texp - t)) - strike * np.exp(
+            -self.intr * style * (texp - t)) if cp_sign == 1 else np.zeros(N + 1)
 
         A_im = sparse.diags([a_im, b_im + 1, c_im], [-1, 0, 1], shape=(M - 1, M - 1))
         A_im_LU = splu(A_im.tocsc())
